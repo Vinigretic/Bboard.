@@ -1,0 +1,32 @@
+{% extends 'layout/basic.html' %}
+{% load thumbnail %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}Профіль користувача!{% endblock %}
+
+{% block content %}
+  <h2>Профіль користувача {{ user.username }} </h2>
+  <h3>Ваші оголошення</h3>
+    <ul class="list-unstyled">
+        {% for bb in bbs %}
+        <li class="media my-5 p-3 border">
+            {% if bb.image %}
+                <img class="mr-3" src="{% thumbnail bb.image 'default' %}">
+            {% else %}
+                <img class="mr-3" src="{% static 'main/empty.jpg' %}">
+            {% endif %}
+            </a>
+            <div class="media-body">
+                <a href="{% url 'main:profile_bb_detail' pk=bb.pk %}">{{ bb.title }}</a>
+                <div>{{ bb.content }}</div>
+                {% if bb.price != 0.0 %}
+                    <p class="text-right font-weight-bold">{{ bb.price }} {{ bb.currency }}</p>
+                {% endif %}
+                <p class="text-right font-italic">{{ bb.created_at }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% bootstrap_pagination page url=keyword %}
+{% endblock %}

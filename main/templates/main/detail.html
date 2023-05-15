@@ -1,0 +1,67 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+
+
+{% block title %}{{ bb.title }} - {{ bb.rubric.name }}{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col ">
+                {% if bb.image %}
+                    <div class="col-md-auto"><img src="{{ bb.image.url }}" class="main-image" style="width: 600px; height: 400px;"></div>
+                {% endif %}
+            </div>
+            <div class="col">
+                <h2>{{ bb.title }}</h2>
+                <p>{{ bb.content }}</p>
+                {% if bb.price != 0.0 %}
+                    <p class="font-weight-bold">{{ bb.price }} {{ bb.currency }}.</p>
+                {% endif %}
+                <p>{{ bb.contacts }}</p>
+                <div style="margin-top: 30px; font-size: 13px;">
+                    <p class="font-italic">Додано
+                    {{ bb.created_at }}</p>
+                     <p class="font-italic">Автор
+                    {{ bb.author }}</p>
+                </div>
+                <div style="margin-top: 30px; font-size: 20px;">
+                    {% if keyword %}
+                        <p><a href="{% url 'main:by_rubric' pk=bb.rubric.pk %}{{ all }}">Назад до знайдених</a></p>
+                    {% endif %}
+                    <a href="{% url 'main:index' %}">Повернутись на головну</a><br>
+                    <a href="{% url 'main:by_rubric' pk=bb.rubric.pk %}">Перейти до рубрики {{bb.rubric}} </a>
+                </div>
+            </div>
+        </div>
+        {% if ais %}
+        <div class="d-flex justify-content-between flex-wrap mt-5">
+            {% for ai in ais %}
+            <div>
+                <img class='zoom' src="{{ ai.image.url }}">
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <h4 class="mt-5">Новий коментар</h4>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        {% buttons submit='Додати коментар' %} {% endbuttons %}
+    </form>
+    {% if comments %}
+        <div class='mt-5'>
+        {% for comment in comments %}
+            <div class="my-2 p-2 border">
+                <h5>{{ comment.author }}</h5>
+                <p>{{ comment.content }}</p>
+                <p class="text-right font-italic">{{ comment.created_at }}</p>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+

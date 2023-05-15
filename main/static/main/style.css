@@ -1,0 +1,21 @@
+header h1 {
+        background: url("bg.jpg") left / auto 100% no-repeat, url("bg.jpg")
+        right / auto 100% no-repeat , linear-gradient(to top, #E4AF9D 20%, #E4E4D8 50%, #A19887 80%);
+
+}
+
+.root {
+    font-size: larger;
+}
+
+img.main-image {
+    width: ЗООрх;
+}
+
+.zoom {
+    width: 180px;
+}
+
+.zoom:hover {
+  zoom: 2.5;
+}
